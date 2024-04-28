@@ -9,6 +9,8 @@ from button.starter_button import display_starter_items_button
 from button.soup_button import display_soup_items_button
 from button.grilled_chicken_button import display_grilled_chicken_items_button
 from button.biryani_button import display_Biryani_items_button
+from button.rice_button import display_rice_button
+from button.egg_button import display_egg_button
 
 from Policy.terms_and_conditions import get_terms_and_conditions
 from Policy.privacy_policy import get_privacy_policy
@@ -29,7 +31,7 @@ def get_current_date_time():
 
 default_keys = {
     'cart': {},
-    'button_state_chicken_dry': False,
+    'button_state_egg': False,
     'button_state_bread': False,
     'button_state_shawarma': False,
     'button_state_rice': False,
@@ -74,6 +76,8 @@ display_starter_items_button(ref, st.session_state)
 display_soup_items_button(ref, st.session_state)
 display_grilled_chicken_items_button(ref, st.session_state)
 display_Biryani_items_button(ref, st.session_state)
+display_rice_button(ref, st.session_state)
+display_egg_button(ref, st.session_state)
 
     
 with st.container():

@@ -15,3 +15,11 @@ def fetch_grilled_chicken_items(ref):
 def fetch_Biryani_items(ref):
     Biryani_items = ref.child('Biryani').get()
     return Biryani_items
+
+def fetch_rice_items(ref):
+    rice_items = ref.child('Rice').get()
+    return rice_items
+
+def fetch_egg_items(ref):
+    egg_items = ref.child('Egg').get()
+    return egg_items

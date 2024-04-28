@@ -44,7 +44,7 @@ header {visibility: hidden;}
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # Create a sidebar for navigation
-page = st.sidebar.selectbox("Choose a page", ["Orders", "Starters","Soups","Grilled Chicken","Bread Items","Shawarma", "rice/noodles/kothu",  "Biryani"])
+page = st.sidebar.selectbox("Choose a page", ["Orders", "Starters","Soups","Grilled Chicken","Biryani", "Rice / Pulav","Egg"])
 def on_order_added(order_snapshot):
     order_data = order_snapshot.val()
     st.write(f"New order added: {order_data}")
@@ -608,5 +608,87 @@ elif page == "Biryani":
             st.rerun()  # Refresh the page after adding the item
         else:
             st.warning("Please enter valid item name and price.")
-                    
 
+elif page == "Rice / Pulav":
+    st.markdown("## Rice / Pulav")
+
+    # Veg Starters Section
+    st.markdown("### Rice")
+    existing_Rice_items = ref.child('Rice').get()
+    if existing_Rice_items:
+        for item_key, item_data in existing_Rice_items.items():
+            col1, col3, col4 = st.columns([1, 1, 1])
+            with col1:
+                st.write(f"{item_data['item_name']} ----- {item_data['price']}")
+            with col3:
+                status_options = ["Available", "Not Available"]
+                status_index = 0 if item_data.get('available') else 1
+                new_status = st.radio("", options=status_options, index=status_index, key=f"Rice_status_{item_key}")
+                if new_status != status_options[status_index]:
+                    updated_status = True if new_status == "Available" else False
+                    ref.child('Rice').child(item_key).update({'available': updated_status})
+                    st.success(f"{item_data['item_name']} status updated to {new_status}")
+                    # Refresh the page after updating status
+                    st.rerun()
+            with col4:
+                delete_item = st.button(f"Delete {item_data['item_name']}")
+                if delete_item:
+                    ref.child('Rice').child(item_key).delete()
+                    st.success("Item deleted successfully!")
+                    # Refresh the page after deleting item
+                    st.rerun()
+        
+        # Input fields for adding new Veg Starters
+    new_Rice_item_name = st.text_input("Enter Rice Item Name:")
+    new_Rice_item_price = st.number_input("Enter Rice Item Price:", min_value=0.0)
+
+    if st.button("Add New Rice"):
+        if new_Rice_item_name.strip() and new_Rice_item_price > 0:
+            # Add the new Veg Starter item to the Firebase database
+            ref.child('Rice').push({'item_name': new_Rice_item_name, 'price': new_Rice_item_price, 'available': True})
+            st.success("New Rice added successfully!")
+            st.rerun()  # Refresh the page after adding the item
+        else:
+            st.warning("Please enter valid item name and price.")
+                    
+elif page == "Egg":
+    st.markdown("## Egg Items")
+
+    # Veg Starters Section
+    st.markdown("### Egg ")
+    existing_egg_items = ref.child('Egg').get()
+    if existing_egg_items:
+        for item_key, item_data in existing_egg_items.items():
+            col1, col3, col4 = st.columns([1, 1, 1])
+            with col1:
+                st.write(f"{item_data['item_name']} ----- {item_data['price']}")
+            with col3:
+                status_options = ["Available", "Not Available"]
+                status_index = 0 if item_data.get('available') else 1
+                new_status = st.radio("", options=status_options, index=status_index, key=f"egg_status_{item_key}")
+                if new_status != status_options[status_index]:
+                    updated_status = True if new_status == "Available" else False
+                    ref.child('Egg').child(item_key).update({'available': updated_status})
+                    st.success(f"{item_data['item_name']} status updated to {new_status}")
+                    # Refresh the page after updating status
+                    st.rerun()
+            with col4:
+                delete_item = st.button(f"Delete {item_data['item_name']}")
+                if delete_item:
+                    ref.child('Egg').child(item_key).delete()
+                    st.success("Item deleted successfully!")
+                    # Refresh the page after deleting item
+                    st.rerun()
+        
+        # Input fields for adding new Veg Starters
+    new_Egg_item_name = st.text_input("Enter Egg Item Name:")
+    new_Egg_item_price = st.number_input("Enter Egg Item Price:", min_value=0.0)
+
+    if st.button("Add New Egg"):
+        if new_Egg_item_name.strip() and new_Egg_item_price > 0:
+            # Add the new Veg Starter item to the Firebase database
+            ref.child('Egg').push({'item_name': new_Egg_item_name, 'price': new_Egg_item_price, 'available': True})
+            st.success("New Egg added successfully!")
+            st.rerun()  # Refresh the page after adding the item
+        else:
+            st.warning("Please enter valid item name and price.")
