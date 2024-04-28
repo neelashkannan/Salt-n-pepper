@@ -7,6 +7,7 @@ import firebase_admin
 from firebase_admin import credentials, db
 from button.starter_button import display_starter_items_button
 from button.soup_button import display_soup_items_button
+from button.grilled_chicken_button import display_grilled_chicken_items_button
 
 from Policy.terms_and_conditions import get_terms_and_conditions
 from Policy.privacy_policy import get_privacy_policy
@@ -14,7 +15,7 @@ from Policy.return_and_refund_policy import get_return_and_refund_policy
 
 # Initialize Firebase
 if not firebase_admin._apps:
-    cred = credentials.Certificate("C:\\Users\\Robonium\\Desktop\\OneDrive\\Documents\\codes\\salt n pepper\\saltnpepper\\testing.json")
+    cred = credentials.Certificate("C:\\Users\\Robonium\\Desktop\\OneDrive\\Documents\\codes\\salt n pepper\\saltnpepper\\Salt-n-pepper\\testing.json")
     firebase_admin.initialize_app(cred, {
         'databaseURL': 'https://salt-and-pepper-213ad-default-rtdb.asia-southeast1.firebasedatabase.app/'
     })
@@ -35,6 +36,7 @@ default_keys = {
     'button_state_Biryani': False,
     'selected_section': None,
     'button_state_soup': False,
+    'button_state_grilled_chicken': False,
 }
 
 for key, default_value in default_keys.items():
@@ -69,6 +71,7 @@ table = st.text_input("Enter your table number:")
 
 display_starter_items_button(ref, st.session_state)
 display_soup_items_button(ref, st.session_state)
+display_grilled_chicken_items_button(ref, st.session_state)
 
     
 with st.container():
@@ -77,7 +80,8 @@ with st.container():
         order_items = []
         for item_id, quantity in st.session_state['cart'].items():
             if quantity > 0:
-                item_data = (ref.child('starters').child(item_id).get() or ref.child('soups').child(item_id).get())
+                item_data = (ref.child('starters').child('Indian veg').child(item_id).get() or ref.child('soups').child('veg soups').child(item_id).get() 
+                             or ref.child('Grilled Chicken').child(item_id).get())
                 if item_data:
                     item_name = item_data['item_name']
                     item_price = item_data['price']
@@ -86,8 +90,13 @@ with st.container():
                     order_items.append({'item_id': item_id, 'item_name': item_name, 'quantity': quantity_input, 'price': item_price})
                     total += item_price * quantity_input
 
-      
         st.write(f"Total: {total}")
+
+        # Update cart button
+        if st.button("Update Order", key="update_order_btn"):
+            ref.child('cart').set(st.session_state['cart'])
+            st.success("Order updated successfully!")
+
     
     
 try:
@@ -102,16 +111,14 @@ except Exception as e:
 if 'cart' not in st.session_state:
         st.session_state['cart'] = {}
 
-st.write(f"Current order number: {order_number}")
+#st.write(f"Current order number: {order_number}")
 
 if len(st.session_state['cart']) > 0 and table:
     if st.button("Place Order"):
-        order_data = {
-            'order_number': order_number,
-            'date': datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            # other order details
-        }
+        order_date = get_current_date_time()
+        order_data = {'cart': order_items, 'total': total, 'Table number': table, 'order_date': order_date}
         ref.child('orders').child(str(order_number)).set(order_data)
+        #ref.child('orders').child(str(order_number)).set(order_data)
         ref.child('last_order_number').set(order_number)
         st.success(f"Order placed successfully! Your order number is {order_number}.")
 

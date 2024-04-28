@@ -7,3 +7,7 @@ def fetch_starter_items(ref):
 def fetch_soup_items(ref):
     soup_items = ref.child('soups').get()
     return soup_items
+
+def fetch_grilled_chicken_items(ref):
+    grilled_chicken_items = ref.child('Grilled Chicken').get()
+    return grilled_chicken_items
