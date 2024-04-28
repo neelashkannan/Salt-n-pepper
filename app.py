@@ -103,53 +103,37 @@ display_rice_noodles_button(ref, st.session_state)
 display_Scoop_button(ref, st.session_state)
    
 with st.container():
-        st.markdown("<h2 style='text-align: center; '>Your Cart</h2>", unsafe_allow_html=True)
-        total = 0
-        order_items = []
-        for item_id, quantity in st.session_state['cart'].items():
-            if quantity > 0:
-                item_data = (ref.child('starters').child('Tandoori Veg').child(item_id).get() 
-                             or ref.child('starters').child('Tandoori Non Veg').child(item_id).get() 
-                             or ref.child('starters').child('veg oil fry').child(item_id).get() 
-                             or ref.child('starters').child('Indian non-veg oil fry').child(item_id).get() 
-                             or ref.child('starters').child('Chinese Veg').child(item_id).get() 
-                             or ref.child('starters').child('Chinese Non Veg').child(item_id).get() 
-                             or ref.child('starters').child('Indian Non veg').child(item_id).get() 
-                             or ref.child('starters').child('Indian veg').child(item_id).get() 
-                             or ref.child('soups').child('veg soups').child(item_id).get()
-                             or ref.child('soups').child('non veg soups').child(item_id).get() 
-                            or ref.child('Grilled Chicken').child(item_id).get()
-                            or ref.child('Biryani').child(item_id).get() 
-                            or ref.child('Milk Shake').child(item_id).get()
-                            or ref.child('Soft Drinks').child(item_id).get()
-                            or ref.child('Milk Shake').child(item_id).get()
-                            or ref.child('rice_noodles').child(item_id).get()
-                            or ref.child('Scoop').child(item_id).get()
-                            or ref.child('Fresh Juice').child(item_id).get()
-                            or ref.child('Fish & Sea Food').child(item_id).get()
-                            or ref.child('Indian Breads').child(item_id).get() 
-                            or ref.child("South Indian Parota's").child(item_id).get()
-                            or ref.child('Dosa').child(item_id).get()
-                            or ref.child('Egg').child(item_id).get()
-                            or ref.child('Rice').child(item_id).get()
-                            or ref.child('indian gravy').child('indian non-veg gravy').child(item_id).get()
-                            or ref.child('indian gravy').child('indian veg gravy').child(item_id).get())
-                
-                
+    st.markdown("<h2 style='text-align: center; '>Your Cart</h2>", unsafe_allow_html=True)
+    total = 0
+    order_items = []
+    for item_id, quantity in st.session_state['cart'].items():
+        if quantity > 0:
+            item_data = None
+            for category in ["starters", "soups", "Grilled Chicken", "Biryani", "Milk Shake", "Soft Drinks",
+                             "rice_noodles", "Scoop", "Fresh Juice", "Fish & Sea Food", "Indian Breads",
+                             "South Indian Parota's", "Dosa", "Egg", "Rice", "indian gravy"]:
+                for sub_category in ref.child(category).get().keys():
+                    item_data = ref.child(category).child(sub_category).child(item_id).get()
+                    if item_data:
+                        break  # If item data found, break the loop
                 if item_data:
-                    item_name = item_data['item_name']
-                    item_price = item_data['price']
-                    quantity_input = st.number_input(f"{item_name} Quantity", min_value=0, max_value=10, value=quantity, key=item_id)
-                    st.write(f"{item_name}: {quantity_input} x {item_price} = {quantity_input * item_price}")
-                    order_items.append({'item_id': item_id, 'item_name': item_name, 'quantity': quantity_input, 'price': item_price})
-                    total += item_price * quantity_input
+                    break  # If item data found, break the loop
 
-        st.write(f"Total: {total}")
+            if item_data:
+                item_name = item_data['item_name']
+                item_price = item_data['price']
+                quantity_input = st.number_input(f"{item_name} Quantity", min_value=0, max_value=10, value=quantity, key=item_id)
+                st.write(f"{item_name}: {quantity_input} x {item_price} = {quantity_input * item_price}")
+                order_items.append({'item_id': item_id, 'item_name': item_name, 'quantity': quantity_input, 'price': item_price})
+                total += item_price * quantity_input
 
-        # Update cart button
-        if st.button("Update Order", key="update_order_btn"):
-            ref.child('cart').set(st.session_state['cart'])
-            st.success("Order updated successfully!")
+    st.write(f"Total: {total}")
+
+    # Update cart button
+    if st.button("Update Order", key="update_order_btn"):
+        ref.child('cart').set(st.session_state['cart'])
+        st.success("Order updated successfully!")
+
 
     
     
