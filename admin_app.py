@@ -20,7 +20,7 @@ def get_current_date_time():
 
 # Initialize Firebase
 if not firebase_admin._apps:
-    cred = credentials.Certificate("/mnt/d/Projects/neeash/Salt-n-pepper/testing.json")
+    cred = credentials.Certificate("testing.json")
     firebase_admin.initialize_app(cred, {
         'databaseURL': 'https://salt-and-pepper-213ad-default-rtdb.asia-southeast1.firebasedatabase.app/'
     })
