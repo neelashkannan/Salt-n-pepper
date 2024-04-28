@@ -80,7 +80,7 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 
 # Display the main content for ordering online
-st.markdown("<h1 style='text-align: center; '>Welcome to Mexitos</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; '>Welcome to Salt-n-pepper</h1>", unsafe_allow_html=True)
 st.markdown("<h2 style='text-align: center; '>Order Online</h2>", unsafe_allow_html=True)
 
 # Form to enter name and phone number
@@ -110,7 +110,21 @@ with st.container():
         for item_id, quantity in st.session_state['cart'].items():
             if quantity > 0:
                 item_data = (ref.child('starters').child('Indian veg').child(item_id).get() or ref.child('soups').child('veg soups').child(item_id).get() 
-                             or ref.child('Grilled Chicken').child(item_id).get() or ref.child('Biryani').child(item_id).get())
+                            or ref.child('Grilled Chicken').child(item_id).get()
+                            or ref.child('Biryani').child(item_id).get() 
+                            or ref.child('Milk Shake').child(item_id).get()
+                            or ref.child('Soft Drinks').child(item_id).get()
+                            or ref.child('Milk Shake').child(item_id).get()
+                            or ref.child('rice_noodles').child(item_id).get()
+                            or ref.child('Scoop').child(item_id).get()
+                            or ref.child('Fresh Juice').child(item_id).get()
+                            or ref.child('Fish & Sea Food').child(item_id).get()
+                            or ref.child('Indian Breads').child(item_id).get() 
+                            or ref.child("South Indian Parota's").child(item_id).get()
+                            or ref.child('Dosa').child(item_id).get()
+                            or ref.child('Egg').child(item_id).get()
+                            or ref.child('Rice').child(item_id).get())
+                
                 if item_data:
                     item_name = item_data['item_name']
                     item_price = item_data['price']
