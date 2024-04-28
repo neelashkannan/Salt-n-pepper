@@ -140,85 +140,76 @@ elif page == "Starters":
 
     # Veg Starters Section
     st.markdown("### Indian Veg Starters [Dry]")
-    
-    
-
-    existing_veg_items = ref.child('starters').child('Indian veg dry').get()
-    if existing_veg_items:
-        for item_key, item_data in existing_veg_items.items():
+    existing_non_veg_items = ref.child('starters').child('Indian Veg').get()
+    if existing_non_veg_items:
+        for item_key, item_data in existing_non_veg_items.items():
             col1, col3, col4 = st.columns([1, 1, 1])
             with col1:
                 st.write(f"{item_data['item_name']} ----- {item_data['price']}")
             with col3:
                 status_options = ["Available", "Not Available"]
                 status_index = 0 if item_data.get('available') else 1
-                new_status = st.radio("", options=status_options, index=status_index, key=f"indian_veg_dry_starter_status_{item_key}")
+                new_status = st.radio("", options=status_options, index=status_index, key=f"Indian_veg_status_{item_key}")
                 if new_status != status_options[status_index]:
                     updated_status = True if new_status == "Available" else False
-                    ref.child('starters').child('Indian veg dry').child(item_key).update({'available': updated_status})
+                    ref.child('starters').child('Indian Veg').child(item_key).update({'available': updated_status})
                     st.success(f"{item_data['item_name']} status updated to {new_status}")
                     # Refresh the page after updating status
                     st.rerun()
             with col4:
                 delete_item = st.button(f"Delete {item_data['item_name']}")
                 if delete_item:
-                    ref.child('starters').child('Indian veg dry').child(item_key).delete()
+                    ref.child('starters').child('Indian Veg').child(item_key).delete()
                     st.success("Item deleted successfully!")
                     # Refresh the page after deleting item
                     st.rerun()
-        
-        # Input fields for adding new Veg Starters
-    new_indian_veg_dry_item_name = st.text_input("Enter Veg Starter Item Name:")
-    new_indian_veg_dry_item_price = st.number_input("Enter Veg Starter Item Price:", min_value=0.0)
+    new_Indian_veg_item_name = st.text_input("Enter Indian Veg Starters Item Name:")
+    new_Indian_veg_item_price = st.number_input("Enter Indian Veg Starters Item Price:", min_value=0.0)
 
-    if st.button("Add New Indian Veg Starter"):
-        if new_indian_veg_dry_item_name.strip() and new_indian_veg_dry_item_price > 0:
-            # Add the new Veg Starter item to the Firebase database
-            ref.child('starters').child('Indian veg').push({'item_name': new_indian_veg_dry_item_name, 'price': new_indian_veg_dry_item_price, 'available': True})
+    
+    if st.button("Add Indian Veg Starter"):
+        if new_Indian_veg_item_name.strip() and new_Indian_veg_item_price > 0:
+            # Add the new Non-Veg Starter item to the Firebase database
+            ref.child('starters').child('Indian Veg').push({'item_name': new_Indian_veg_item_name, 'price': new_Indian_veg_item_price, 'available': True})
             st.success("New Indian Veg Starter added successfully!")
-            st.experimental_rerun()  # Refresh the page after adding the item
+            st.rerun()  # Refresh the page after adding the item
         else:
             st.warning("Please enter valid item name and price.")
-
     
     st.markdown("### Indian Non Veg Starters [Dry]")
-    
-    
-
-    existing_Non_Veg_items = ref.child('starters').child('Indian Non Veg dry').get()
-    if existing_Non_Veg_items:
-        for item_key, item_data in existing_Non_Veg_items.items():
+    existing_non_veg_items = ref.child('starters').child('Indian Non Veg').get()
+    if existing_non_veg_items:
+        for item_key, item_data in existing_non_veg_items.items():
             col1, col3, col4 = st.columns([1, 1, 1])
             with col1:
                 st.write(f"{item_data['item_name']} ----- {item_data['price']}")
             with col3:
                 status_options = ["Available", "Not Available"]
                 status_index = 0 if item_data.get('available') else 1
-                new_status = st.radio("", options=status_options, index=status_index, key=f"indian_Non_Veg_dry_starter_status_{item_key}")
+                new_status = st.radio("", options=status_options, index=status_index, key=f"Indian_non_veg_status_{item_key}")
                 if new_status != status_options[status_index]:
                     updated_status = True if new_status == "Available" else False
-                    ref.child('starters').child('Indian Non Veg dry').child(item_key).update({'available': updated_status})
+                    ref.child('starters').child('Indian Non Veg').child(item_key).update({'available': updated_status})
                     st.success(f"{item_data['item_name']} status updated to {new_status}")
                     # Refresh the page after updating status
                     st.rerun()
             with col4:
                 delete_item = st.button(f"Delete {item_data['item_name']}")
                 if delete_item:
-                    ref.child('starters').child('Indian Non Veg dry').child(item_key).delete()
+                    ref.child('starters').child('Indian Non Veg').child(item_key).delete()
                     st.success("Item deleted successfully!")
                     # Refresh the page after deleting item
                     st.rerun()
-        
-        # Input fields for adding new Non Veg Starters
-    new_indian_Non_Veg_dry_item_name = st.text_input("Enter Non Veg Starter Item Name:")
-    new_indian_Non_Veg_dry_item_price = st.number_input("Enter Non Veg Starter Item Price:", min_value=0.0)
+    new_Indian_non_veg_item_name = st.text_input("Enter Indian Non Veg Starters Item Name:")
+    new_Indian_non_veg_item_price = st.number_input("Enter Indian Non Veg Starters Item Price:", min_value=0.0)
 
-    if st.button("Add New Indian Non Veg Starter"):
-        if new_indian_Non_Veg_dry_item_name.strip() and new_indian_Non_Veg_dry_item_price > 0:
-            # Add the new Non Veg Starter item to the Firebase database
-            ref.child('starters').child('Indian Non Veg').push({'item_name': new_indian_Non_Veg_dry_item_name, 'price': new_indian_Non_Veg_dry_item_price, 'available': True})
-            st.success("New Indian Non Veg Starter added successfully!")
-            st.experimental_rerun()  # Refresh the page after adding the item
+    
+    if st.button("Add Indian Non Veg Starter"):
+        if new_Indian_non_veg_item_name.strip() and new_Indian_non_veg_item_price > 0:
+            # Add the new Non-Veg Starter item to the Firebase database
+            ref.child('starters').child('Indian Veg').push({'item_name': new_Indian_non_veg_item_name, 'price': new_Indian_non_veg_item_price, 'available': True})
+            st.success("New Indian non Veg Starter added successfully!")
+            st.rerun()  # Refresh the page after adding the item
         else:
             st.warning("Please enter valid item name and price.")
 
@@ -339,7 +330,7 @@ elif page == "Starters":
             # Add the new Non-Veg Starter item to the Firebase database
             ref.child('starters').child('Tandoori Veg').push({'item_name': new_tandoori_veg_item_name, 'price': new_tandoori_veg_item_price, 'available': True})
             st.success("New Tandoori Veg Starter added successfully!")
-            st.experimental_rerun()  # Refresh the page after adding the item
+            st.rerun()  # Refresh the page after adding the item
         else:
             st.warning("Please enter valid item name and price.")
 
@@ -525,7 +516,7 @@ elif page == "Soups":
                     # Refresh the page after updating status
                     st.rerun()
             with col4:
-                delete_item = st.button(f"Delete {item_data['item_name']}")
+                delete_item = st.button(f"Delete {item_data['item_name']}", key=f"delete_non_veg_soup_{item_key}")
                 if delete_item:
                     ref.child('soups').child('non veg soups').child(item_key).delete()
                     st.success("Item deleted successfully!")

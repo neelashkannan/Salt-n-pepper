@@ -1,6 +1,5 @@
-import time
+
 import datetime
-import json
 import streamlit as st
 
 import firebase_admin
@@ -51,9 +50,9 @@ default_keys = {
     'button_state_Fish & Sea Food': False,
     'button_state_Fresh_Juice': False,
     'button_state_Indian_Breads': False,
-    'button_state_indian gravy': False,
+    'button_state_indian_gravy': False,
     'button_state_Milk Shake': False,
-    'button_state_Rice / Noodles': False,
+    'button_state_rice_noodles': False,
     'button_state_Scoop': False,
     'selected_section': None,
 }
@@ -109,7 +108,16 @@ with st.container():
         order_items = []
         for item_id, quantity in st.session_state['cart'].items():
             if quantity > 0:
-                item_data = (ref.child('starters').child('Indian veg').child(item_id).get() or ref.child('soups').child('veg soups').child(item_id).get() 
+                item_data = (ref.child('starters').child('Tandoori Veg').child(item_id).get() 
+                             or ref.child('starters').child('Tandoori Non Veg').child(item_id).get() 
+                             or ref.child('starters').child('veg oil fry').child(item_id).get() 
+                             or ref.child('starters').child('Indian non-veg oil fry').child(item_id).get() 
+                             or ref.child('starters').child('Chinese Veg').child(item_id).get() 
+                             or ref.child('starters').child('Chinese Non Veg').child(item_id).get() 
+                             or ref.child('starters').child('Indian Non veg').child(item_id).get() 
+                             or ref.child('starters').child('Indian veg').child(item_id).get() 
+                             or ref.child('soups').child('veg soups').child(item_id).get()
+                             or ref.child('soups').child('non veg soups').child(item_id).get() 
                             or ref.child('Grilled Chicken').child(item_id).get()
                             or ref.child('Biryani').child(item_id).get() 
                             or ref.child('Milk Shake').child(item_id).get()
@@ -123,7 +131,10 @@ with st.container():
                             or ref.child("South Indian Parota's").child(item_id).get()
                             or ref.child('Dosa').child(item_id).get()
                             or ref.child('Egg').child(item_id).get()
-                            or ref.child('Rice').child(item_id).get())
+                            or ref.child('Rice').child(item_id).get()
+                            or ref.child('indian gravy').child('indian non-veg gravy').child(item_id).get()
+                            or ref.child('indian gravy').child('indian veg gravy').child(item_id).get())
+                
                 
                 if item_data:
                     item_name = item_data['item_name']
