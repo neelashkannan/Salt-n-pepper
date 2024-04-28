@@ -11,14 +11,22 @@ from button.grilled_chicken_button import display_grilled_chicken_items_button
 from button.biryani_button import display_Biryani_items_button
 from button.rice_button import display_rice_button
 from button.egg_button import display_egg_button
-
+from button.Dosa_button import display_Dosa_button
+from button.Fish_Sea_Food_button import display_Fish_Sea_Food_button
+from button.Fresh_Juice_button import display_Fresh_Juice_button
+from button.Indian_Breads_button import display_Indian_Breads_button
+from button.indian_gravy_button import display_indian_gravy_button
+from button.Milk_Shake_button import display_Milk_Shake_button
+from button.rice_noodles_button import display_rice_noodles_button
+from button.Scoop_button import display_Scoop_button
+from button.Fresh_Juice_button import display_Fresh_Juice_button
 from Policy.terms_and_conditions import get_terms_and_conditions
 from Policy.privacy_policy import get_privacy_policy
 from Policy.return_and_refund_policy import get_return_and_refund_policy
 
 # Initialize Firebase
 if not firebase_admin._apps:
-    cred = credentials.Certificate("C:\\Users\\Robonium\\Desktop\\OneDrive\\Documents\\codes\\salt n pepper\\saltnpepper\\Salt-n-pepper\\testing.json")
+    cred = credentials.Certificate("testing.json")
     firebase_admin.initialize_app(cred, {
         'databaseURL': 'https://salt-and-pepper-213ad-default-rtdb.asia-southeast1.firebasedatabase.app/'
     })
@@ -37,11 +45,18 @@ default_keys = {
     'button_state_rice': False,
     'button_state_starter': False,
     'button_state_Biryani': False,
-    'selected_section': None,
     'button_state_soup': False,
     'button_state_grilled_chicken': False,
+    'button_state_dosa': False,
+    'button_state_Fish & Sea Food': False,
+    'button_state_Fresh_Juice': False,
+    'button_state_Indian_Breads': False,
+    'button_state_indian gravy': False,
+    'button_state_Milk Shake': False,
+    'button_state_Rice / Noodles': False,
+    'button_state_Scoop': False,
+    'selected_section': None,
 }
-
 for key, default_value in default_keys.items():
     if key not in st.session_state:
         st.session_state[key] = default_value
@@ -78,8 +93,16 @@ display_grilled_chicken_items_button(ref, st.session_state)
 display_Biryani_items_button(ref, st.session_state)
 display_rice_button(ref, st.session_state)
 display_egg_button(ref, st.session_state)
-
-    
+display_Dosa_button(ref, st.session_state)
+display_Fresh_Juice_button(ref, st.session_state) 
+display_Fish_Sea_Food_button(ref, st.session_state)
+display_Fresh_Juice_button(ref, st.session_state)
+display_Indian_Breads_button(ref, st.session_state)
+display_indian_gravy_button(ref, st.session_state)
+display_Milk_Shake_button(ref, st.session_state)
+display_rice_noodles_button(ref, st.session_state)
+display_Scoop_button(ref, st.session_state)
+   
 with st.container():
         st.markdown("<h2 style='text-align: center; '>Your Cart</h2>", unsafe_allow_html=True)
         total = 0
