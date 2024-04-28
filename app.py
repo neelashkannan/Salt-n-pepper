@@ -8,6 +8,7 @@ from firebase_admin import credentials, db
 from button.starter_button import display_starter_items_button
 from button.soup_button import display_soup_items_button
 from button.grilled_chicken_button import display_grilled_chicken_items_button
+from button.biryani_button import display_Biryani_items_button
 
 from Policy.terms_and_conditions import get_terms_and_conditions
 from Policy.privacy_policy import get_privacy_policy
@@ -72,6 +73,7 @@ table = st.text_input("Enter your table number:")
 display_starter_items_button(ref, st.session_state)
 display_soup_items_button(ref, st.session_state)
 display_grilled_chicken_items_button(ref, st.session_state)
+display_Biryani_items_button(ref, st.session_state)
 
     
 with st.container():
@@ -81,7 +83,7 @@ with st.container():
         for item_id, quantity in st.session_state['cart'].items():
             if quantity > 0:
                 item_data = (ref.child('starters').child('Indian veg').child(item_id).get() or ref.child('soups').child('veg soups').child(item_id).get() 
-                             or ref.child('Grilled Chicken').child(item_id).get())
+                             or ref.child('Grilled Chicken').child(item_id).get() or ref.child('Biryani').child(item_id).get())
                 if item_data:
                     item_name = item_data['item_name']
                     item_price = item_data['price']

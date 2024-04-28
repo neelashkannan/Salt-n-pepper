@@ -530,9 +530,9 @@ elif page == "Grilled Chicken":
 
     # Veg Starters Section
     st.markdown("### Grilled Chicken")
-    existing_veg_soup_items = ref.child('Grilled Chicken').get()
-    if existing_veg_soup_items:
-        for item_key, item_data in existing_veg_soup_items.items():
+    existing_grilled_chicken_items = ref.child('Grilled Chicken').get()
+    if existing_grilled_chicken_items:
+        for item_key, item_data in existing_grilled_chicken_items.items():
             col1, col3, col4 = st.columns([1, 1, 1])
             with col1:
                 st.write(f"{item_data['item_name']} ----- {item_data['price']}")
@@ -563,6 +563,48 @@ elif page == "Grilled Chicken":
             # Add the new Veg Starter item to the Firebase database
             ref.child('Grilled Chicken').push({'item_name': new_grilled_chicken_item_name, 'price': new_grilled_chicken_item_price, 'available': True})
             st.success("New Grilled Chicken added successfully!")
+            st.rerun()  # Refresh the page after adding the item
+        else:
+            st.warning("Please enter valid item name and price.")
+
+elif page == "Biryani":
+    st.markdown("## Biryani")
+
+    # Veg Starters Section
+    st.markdown("### Biryani")
+    existing_biryani_items = ref.child('Biryani').get()
+    if existing_biryani_items:
+        for item_key, item_data in existing_biryani_items.items():
+            col1, col3, col4 = st.columns([1, 1, 1])
+            with col1:
+                st.write(f"{item_data['item_name']} ----- {item_data['price']}")
+            with col3:
+                status_options = ["Available", "Not Available"]
+                status_index = 0 if item_data.get('available') else 1
+                new_status = st.radio("", options=status_options, index=status_index, key=f"biryani_status_{item_key}")
+                if new_status != status_options[status_index]:
+                    updated_status = True if new_status == "Available" else False
+                    ref.child('Biryani').child(item_key).update({'available': updated_status})
+                    st.success(f"{item_data['item_name']} status updated to {new_status}")
+                    # Refresh the page after updating status
+                    st.rerun()
+            with col4:
+                delete_item = st.button(f"Delete {item_data['item_name']}")
+                if delete_item:
+                    ref.child('Biryani').child(item_key).delete()
+                    st.success("Item deleted successfully!")
+                    # Refresh the page after deleting item
+                    st.rerun()
+        
+        # Input fields for adding new Veg Starters
+    new_biryani_item_name = st.text_input("Enter Biryani Item Name:")
+    new_biryani_item_price = st.number_input("Enter Biryani Item Price:", min_value=0.0)
+
+    if st.button("Add New Biryani"):
+        if new_biryani_item_name.strip() and new_biryani_item_price > 0:
+            # Add the new Veg Starter item to the Firebase database
+            ref.child('Biryani').push({'item_name': new_biryani_item_name, 'price': new_biryani_item_price, 'available': True})
+            st.success("New Biryani added successfully!")
             st.rerun()  # Refresh the page after adding the item
         else:
             st.warning("Please enter valid item name and price.")
