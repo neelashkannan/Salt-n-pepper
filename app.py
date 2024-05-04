@@ -106,18 +106,30 @@ with st.container():
     st.markdown("<h2 style='text-align: center; '>Your Cart</h2>", unsafe_allow_html=True)
     total = 0
     order_items = []
-    for item_id, quantity in st.session_state['cart'].items():
+
+    cart_data = st.session_state.get('cart', {})
+    for item_id, quantity in cart_data.items():
         if quantity > 0:
             item_data = None
+            found_item = False
             for category in ["starters", "soups", "Grilled Chicken", "Biryani", "Milk Shake", "Soft Drinks",
                              "rice_noodles", "Scoop", "Fresh Juice", "Fish & Sea Food", "Indian Breads",
                              "South Indian Parota's", "Dosa", "Egg", "Rice", "indian gravy"]:
-                for sub_category in ref.child(category).get().keys():
-                    item_data = ref.child(category).child(sub_category).child(item_id).get()
+                category_ref = ref.child(category).get()
+                if category_ref:
+                    for sub_category in category_ref.keys():
+                        item_data = ref.child(category).child(sub_category).child(item_id).get()
+                        if item_data:
+                            found_item = True
+                            break  # If item data found, break the loop
+                    if found_item:
+                        break  # If item data found, break the loop
+
+                # If the item is not found in any subcategories, check the main category
+                if not found_item:
+                    item_data = ref.child(category).child(item_id).get()
                     if item_data:
                         break  # If item data found, break the loop
-                if item_data:
-                    break  # If item data found, break the loop
 
             if item_data:
                 item_name = item_data['item_name']
@@ -134,8 +146,6 @@ with st.container():
         ref.child('cart').set(st.session_state['cart'])
         st.success("Order updated successfully!")
 
-
-    
     
 try:
         last_order_number = ref.child('last_order_number').get()
