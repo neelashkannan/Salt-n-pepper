@@ -23,7 +23,11 @@ from Policy.privacy_policy import get_privacy_policy
 from Policy.return_and_refund_policy import get_return_and_refund_policy
 from cart import display_cart
 # Initialize Firebase
-
+if not firebase_admin._apps:
+    cred = credentials.Certificate("testing.json")
+    firebase_admin.initialize_app(cred, {
+        'databaseURL': 'https://salt-and-pepper-213ad-default-rtdb.asia-southeast1.firebasedatabase.app/'
+    })
 # Set page title and favicon
 st.set_page_config(
     page_title="Mexitos",
@@ -37,11 +41,7 @@ footer {visibility: hidden;}
 header {visibility: hidden;}
 </style>
 """
-if not firebase_admin._apps:
-    cred = credentials.Certificate("testing.json")
-    firebase_admin.initialize_app(cred, {
-        'databaseURL': 'https://salt-and-pepper-213ad-default-rtdb.asia-southeast1.firebasedatabase.app/'
-    })
+
 
 # Get a reference to the Firebase database
 ref = db.reference('/')
