@@ -20,8 +20,22 @@ from button.Scoop_button import display_Scoop_button
 from Policy.terms_and_conditions import get_terms_and_conditions
 from Policy.privacy_policy import get_privacy_policy
 from Policy.return_and_refund_policy import get_return_and_refund_policy
-
+from cart import display_cart
 # Initialize Firebase
+
+# Set page title and favicon
+st.set_page_config(
+    page_title="Mexitos",
+    page_icon=":hamburger:",
+    layout="wide"
+)
+hide_streamlit_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>
+"""
 if not firebase_admin._apps:
     cred = credentials.Certificate("testing.json")
     firebase_admin.initialize_app(cred, {
@@ -33,6 +47,10 @@ ref = db.reference('/')
 
 def get_current_date_time():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+page = st.sidebar.selectbox(
+    "Choose a page", ["Orders", 
+                      "Cart"])
 
 default_keys = {
     'cart': {},
@@ -58,19 +76,7 @@ for key, default_value in default_keys.items():
     if key not in st.session_state:
         st.session_state[key] = default_value
 
-# Set page title and favicon
-st.set_page_config(
-    page_title="Mexitos",
-    page_icon=":hamburger:",
-    layout="wide"
-)
-hide_streamlit_style = """
-<style>
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
-</style>
-"""
+
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # Main content area
@@ -81,30 +87,35 @@ st.markdown("<h2 style='text-align: center; '>Order Online</h2>", unsafe_allow_h
 table = st.text_input("Enter your table number:")
 
 # Horizontal sliding menu for ordering
-with st.expander("Order Menu", expanded=True):
-    display_starter_items_button(ref, st.session_state)
-    display_soup_items_button(ref, st.session_state)
-    display_grilled_chicken_items_button(ref, st.session_state)
-    display_Biryani_items_button(ref, st.session_state)
-    display_rice_button(ref, st.session_state)
-    display_egg_button(ref, st.session_state)
-    display_Dosa_button(ref, st.session_state)
-    display_Fresh_Juice_button(ref, st.session_state) 
-    display_Fish_Sea_Food_button(ref, st.session_state)
-    display_Fresh_Juice_button(ref, st.session_state)
-    display_Indian_Breads_button(ref, st.session_state)
-    display_indian_gravy_button(ref, st.session_state)
-    display_Milk_Shake_button(ref, st.session_state)
-    display_rice_noodles_button(ref, st.session_state)
-    display_Scoop_button(ref, st.session_state)
+if page == "Orders":
+    with st.expander("Order Menu", expanded=True):
+        display_starter_items_button(ref, st.session_state)
+        display_soup_items_button(ref, st.session_state)
+        display_grilled_chicken_items_button(ref, st.session_state)
+        display_Biryani_items_button(ref, st.session_state)
+        display_rice_button(ref, st.session_state)
+        display_egg_button(ref, st.session_state)
+        display_Dosa_button(ref, st.session_state)
+        display_Fresh_Juice_button(ref, st.session_state) 
+        display_Fish_Sea_Food_button(ref, st.session_state)
+        display_Fresh_Juice_button(ref, st.session_state)
+        display_Indian_Breads_button(ref, st.session_state)
+        display_indian_gravy_button(ref, st.session_state)
+        display_Milk_Shake_button(ref, st.session_state)
+        display_rice_noodles_button(ref, st.session_state)
+        display_Scoop_button(ref, st.session_state)
+
 
 # Horizontal sliding menu for cart
-with st.expander("Your Cart", expanded=True):
+elif page == 'Cart':
+    st.markdown("<h2 style='text-align: center; '>Your Cart</h2>", unsafe_allow_html=True)
     total = 0
     order_items = []
 
     cart_data = st.session_state.get('cart', {})
-    for item_id, quantity in cart_data.items():
+    cart_items_copy = cart_data.copy()  # Create a copy of the dictionary
+
+    for item_id, quantity in cart_items_copy.items():  # Iterate over the copy
         if quantity > 0:
             item_data = None
             found_item = False
@@ -131,9 +142,13 @@ with st.expander("Your Cart", expanded=True):
                 item_name = item_data['item_name']
                 item_price = item_data['price']
                 quantity_input = st.number_input(f"{item_name} Quantity", min_value=0, max_value=10, value=quantity, key=item_id)
-                st.write(f"{item_name}: {quantity_input} x {item_price} = {quantity_input * item_price}")
-                order_items.append({'item_id': item_id, 'item_name': item_name, 'quantity': quantity_input, 'price': item_price})
-                total += item_price * quantity_input
+                if quantity_input > 0:
+                    st.write(f"{item_name}: {quantity_input} x {item_price} = {quantity_input * item_price}")
+                    order_items.append({'item_id': item_id, 'item_name': item_name, 'quantity': quantity_input, 'price': item_price})
+                    total += item_price * quantity_input
+                else:
+                    # Remove item from cart if quantity is zero
+                    del st.session_state['cart'][item_id]
 
     st.write(f"Total: {total}")
 
@@ -142,27 +157,33 @@ with st.expander("Your Cart", expanded=True):
         ref.child('cart').set(st.session_state['cart'])
         st.success("Order updated successfully!")
 
-try:
-    last_order_number = ref.child('last_order_number').get()
-    if last_order_number is None:
-        last_order_number = 0  
-    order_number = int(last_order_number) + 1
-except Exception as e:
-    st.error(f"Error fetching order number: {e}")
-    order_number = 1  
+    try:
+        last_order_number = ref.child('last_order_number').get()
+        if last_order_number is None:
+            last_order_number = 0  
+        order_number = int(last_order_number) + 1
+    except Exception as e:
+        st.error(f"Error fetching order number: {e}")
+        order_number = 1 
 
-if 'cart' not in st.session_state:
-    st.session_state['cart'] = {}
+    if len(st.session_state['cart']) > 0 and table:
+        if st.button("Place Order"):
+            order_date = get_current_date_time()
+            order_data = {'cart': order_items, 'total': total, 'Table number': table, 'order_date': order_date}
+            ref.child('orders').child(str(order_number)).set(order_data)
+            ref.child('last_order_number').set(order_number)
+            st.session_state['cart'] = {}
+            st.success(f"Order placed successfully! Your order number is {order_number}.")
 
-if len(st.session_state['cart']) > 0 and table:
-    if st.button("Place Order"):
-        order_date = get_current_date_time()
-        order_data = {'cart': order_items, 'total': total, 'Table number': table, 'order_date': order_date}
-        ref.child('orders').child(str(order_number)).set(order_data)
-        ref.child('last_order_number').set(order_number)
-        st.success(f"Order placed successfully! Your order number is {order_number}.")
-else:
-    st.warning("Please enter your Table number to place an order.")
+            # Empty the cart after placing order
+            
+    if table == "":
+        st.warning("Please enter your Table number to place an order.")
+
+    if st.session_state['cart'] == {}:
+        st.warning("Add items to proceed")
+
+
 
 st.markdown("---")  
 
