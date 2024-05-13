@@ -86,8 +86,8 @@ st.markdown("<h2 style='text-align: center; '>Order Online</h2>", unsafe_allow_h
 table = st.text_input("Enter your table number:")
 page = option_menu(
     menu_title="",
-    options= ["Orders", 
-                      "Cart"],
+    options= ["Orders", "Cart"],
+    icons=["book","cart"],
     default_index=0,
     orientation="horizontal",)
 # Horizontal sliding menu for ordering
