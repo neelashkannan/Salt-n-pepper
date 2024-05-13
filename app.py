@@ -1,5 +1,6 @@
 import datetime
 import streamlit as st
+from streamlit_option_menu import option_menu
 
 import firebase_admin
 from firebase_admin import credentials, db
@@ -48,9 +49,7 @@ ref = db.reference('/')
 def get_current_date_time():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-page = st.sidebar.selectbox(
-    "Choose a page", ["Orders", 
-                      "Cart"])
+
 
 default_keys = {
     'cart': {},
@@ -85,7 +84,12 @@ st.markdown("<h2 style='text-align: center; '>Order Online</h2>", unsafe_allow_h
 
 # Form to enter name and phone number
 table = st.text_input("Enter your table number:")
-
+page = option_menu(
+    menu_title="",
+    options= ["Orders", 
+                      "Cart"],
+    default_index=0,
+    orientation="horizontal",)
 # Horizontal sliding menu for ordering
 if page == "Orders":
     with st.expander("Order Menu", expanded=True):
@@ -104,6 +108,8 @@ if page == "Orders":
         display_Milk_Shake_button(ref, st.session_state)
         display_rice_noodles_button(ref, st.session_state)
         display_Scoop_button(ref, st.session_state)
+
+
 
 
 # Horizontal sliding menu for cart
