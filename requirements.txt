@@ -2,4 +2,4 @@ openpyxl
 streamlit
 pandas
 firebase_admin
-streamlit-options-menu
+streamlit-option-menu
