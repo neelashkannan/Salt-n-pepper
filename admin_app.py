@@ -6,7 +6,6 @@ import time
 import datetime
 import pandas as pd
 import os
-import winsound
 
 
 def generate_order_number():
