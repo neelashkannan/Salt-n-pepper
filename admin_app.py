@@ -7,7 +7,12 @@ import datetime
 import pandas as pd
 from PIL import Image
 import os
+import base64
 
+# Load the audio file
+audio_file = open("siren.mp3", "rb")
+audio_bytes = audio_file.read()
+audio_b64 = base64.b64encode(audio_bytes).decode()
 
 def generate_order_number():
     return int(time.time())
@@ -106,6 +111,8 @@ if page == "Orders":
                     st.markdown(items_table, unsafe_allow_html=True)
                     st.write(f"**Table Number:** {table_number}")
                     st.write(f"**Order Date:** {order_date}")
+                    audio_html = f'<audio autoplay controls><source src="data:audio/mp3;base64,{audio_b64}" type="audio/mpeg"></audio>'
+                    st.markdown(audio_html, unsafe_allow_html=True)
                     
                     if st.button(f"Mark Order {order_number} as Delivered"):
                         delivered_order_data = {
@@ -138,7 +145,7 @@ if page == "Orders":
             elapsed_time = time.time() - start_time
             if elapsed_time >= 10:
                 st.rerun()
-                start_time = time.time()
+                
             #time.sleep(1)
 
 elif page == "Starters":
