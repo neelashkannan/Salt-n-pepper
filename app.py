@@ -1,7 +1,7 @@
 import datetime
 import streamlit as st
 from streamlit_option_menu import option_menu
-
+from PIL import Image
 import firebase_admin
 from firebase_admin import credentials, db
 from button.starter_button import display_starter_items_button
@@ -29,9 +29,11 @@ if not firebase_admin._apps:
         'databaseURL': 'https://salt-and-pepper-213ad-default-rtdb.asia-southeast1.firebasedatabase.app/'
     })
 # Set page title and favicon
+
+im = Image.open("icon.png")
 st.set_page_config(
-    page_title="Mexitos",
-    page_icon=":hamburger:",
+    page_title="Salt-n-Pepper",
+    page_icon=im,
     layout="wide"
 )
 hide_streamlit_style = """

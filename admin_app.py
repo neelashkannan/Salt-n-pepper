@@ -5,6 +5,7 @@ from firebase_admin import db as firebase_db
 import time
 import datetime
 import pandas as pd
+from PIL import Image
 import os
 
 
@@ -33,23 +34,14 @@ def get_current_date_time():
 ref = firebase_db.reference('/')
 db = firebase_db.reference()
 
-def monitor_last_order_number(event):
-    # Get the last order number from the Realtime Database
-    last_order = db.child('metadata').child('order_info').child('last_order_number').get().val()
-
-    # Get the new and old values of last order number
-    new_last_order = event.data['last_order_number']
-    old_last_order = event.data['last_order_number']
-
-    if new_last_order > old_last_order:
-        # Play beep sound when the last order number increases
-        winsound.Beep(1000, 500) 
 #availability_ref = ref.child('availability').child('Chicken Dry :chicken:')
 #availability = availability_ref.get()
 # Set page title and favicon
+im = Image.open("icon.png")
 st.set_page_config(
-    page_title="Mexitos",
-    page_icon=":hamburger:"
+    page_title="Salt-n-Pepper",
+    page_icon=im,
+    layout="wide"
 )
 hide_streamlit_style = """
 <style>
@@ -84,7 +76,6 @@ def on_order_added(order_snapshot):
     st.write(f"New order added: {order_data}")
     st.experimental_rerun()
 
-db.child('metadata').child('order_info').child('last_order_number').listen(monitor_last_order_number)
 if page == "Orders":
     st.markdown("# Orders")
     orders_data = ref.child('orders').get()
