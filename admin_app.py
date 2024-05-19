@@ -170,7 +170,7 @@ elif page == "Starters":
                     # Refresh the page after updating status
                     st.rerun()
             with col4:
-                delete_item = st.button(f"Delete {item_data['item_name']}")
+                delete_item = st.button(f"Delete {item_data['item_name']}", key=f"delete_{item_key}")
                 if delete_item:
                     ref.child('starters').child('Indian Veg').child(item_key).delete()
                     st.success("Item deleted successfully!")
@@ -207,7 +207,7 @@ elif page == "Starters":
                     # Refresh the page after updating status
                     st.rerun()
             with col4:
-                delete_item = st.button(f"Delete {item_data['item_name']}")
+                delete_item = st.button(f"Delete {item_data['item_name']}", key=f"delete_{item_key}")
                 if delete_item:
                     ref.child('starters').child('Indian Non Veg').child(item_key).delete()
                     st.success("Item deleted successfully!")
@@ -220,7 +220,7 @@ elif page == "Starters":
     if st.button("Add Indian Non Veg Starter"):
         if new_Indian_non_veg_item_name.strip() and new_Indian_non_veg_item_price > 0:
             # Add the new Non-Veg Starter item to the Firebase database
-            ref.child('starters').child('Indian Veg').push({'item_name': new_Indian_non_veg_item_name, 'price': new_Indian_non_veg_item_price, 'available': True})
+            ref.child('starters').child('Indian Non Veg').push({'item_name': new_Indian_non_veg_item_name, 'price': new_Indian_non_veg_item_price, 'available': True})
             st.success("New Indian non Veg Starter added successfully!")
             st.rerun()  # Refresh the page after adding the item
         else:
@@ -248,7 +248,7 @@ elif page == "Starters":
                     # Refresh the page after updating status
                     st.rerun()
             with col4:
-                delete_item = st.button(f"Delete {item_data['item_name']}")
+                delete_item = st.button(f"Delete {item_data['item_name']}", key=f"delete_{item_key}")
                 if delete_item:
                     ref.child('starters').child('veg oil fry').child(item_key).delete()
                     st.success("Item deleted successfully!")
@@ -288,7 +288,7 @@ elif page == "Starters":
                     # Refresh the page after updating status
                     st.rerun()
             with col4:
-                delete_item = st.button(f"Delete {item_data['item_name']}")
+                delete_item = st.button(f"Delete {item_data['item_name']}", key=f"delete_{item_key}")
                 if delete_item:
                     ref.child('starters').child('Indian non-veg oil fry').child(item_key).delete()
                     st.success("Item deleted successfully!")
@@ -327,13 +327,15 @@ elif page == "Starters":
                     st.success(f"{item_data['item_name']} status updated to {new_status}")
                     # Refresh the page after updating status
                     st.rerun()
+
             with col4:
-                delete_item = st.button(f"Delete {item_data['item_name']}")
+                delete_item = st.button(f"Delete {item_data['item_name']}", key=f"delete_{item_key}")
                 if delete_item:
                     ref.child('starters').child('Tandoori Veg').child(item_key).delete()
                     st.success("Item deleted successfully!")
                     # Refresh the page after deleting item
-                    st.rerun()
+                    st.rerun()        
+           
     new_tandoori_veg_item_name = st.text_input("Enter Tandoori Veg Starters Item Name:")
     new_tandoori_veg_item_price = st.number_input("Enter Tandoori Veg Starters Item Price:", min_value=0.0)
 
@@ -368,7 +370,7 @@ elif page == "Starters":
                     # Refresh the page after updating status
                     st.rerun()
             with col4:
-                delete_item = st.button(f"Delete {item_data['item_name']}")
+                delete_item = st.button(f"Delete {item_data['item_name']}", key=f"delete_{item_key}")
                 if delete_item:
                     ref.child('starters').child('Tandoori Non Veg').child(item_key).delete()
                     st.success("Item deleted successfully!")
@@ -409,7 +411,7 @@ elif page == "Starters":
                     # Refresh the page after updating status
                     st.rerun()
             with col4:
-                delete_item = st.button(f"Delete {item_data['item_name']}")
+                delete_item = st.button(f"Delete {item_data['item_name']}", key=f"delete_{item_key}")
                 if delete_item:
                     ref.child('starters').child('Chinese Veg').child(item_key).delete()
                     st.success("Item deleted successfully!")
@@ -449,7 +451,7 @@ elif page == "Starters":
                     # Refresh the page after updating status
                     st.rerun()
             with col4:
-                delete_item = st.button(f"Delete {item_data['item_name']}")
+                delete_item = st.button(f"Delete {item_data['item_name']}", key=f"delete_{item_key}")
                 if delete_item:
                     ref.child('starters').child('Chinese Non Veg').child(item_key).delete()
                     st.success("Item deleted successfully!")

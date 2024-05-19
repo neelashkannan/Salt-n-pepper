@@ -21,7 +21,7 @@ def display_rice_button(ref, session_state):
                             if st.button(f"Add to Cart", key=f"add_rice_{item_id}"):
                                 quantity += 1
                                 session_state['cart'][item_id] = quantity
-                                st.rerun()
+                                st.experimental_rerun()
                         else:
                             remove_button_key = f"remove_{item_id}"
                             if st.button("Remove from Cart", key=remove_button_key):

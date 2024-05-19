@@ -181,6 +181,7 @@ elif page == 'Cart':
             ref.child('orders').child(str(order_number)).set(order_data)
             ref.child('last_order_number').set(order_number)
             st.session_state['cart'] = {}
+            st.session_state['cart'] = {}
             st.success(f"Order placed successfully! Your order number is {order_number}.")
 
             # Empty the cart after placing order
