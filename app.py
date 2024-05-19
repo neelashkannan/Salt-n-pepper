@@ -21,6 +21,7 @@ from button.Scoop_button import display_Scoop_button
 from Policy.terms_and_conditions import get_terms_and_conditions
 from Policy.privacy_policy import get_privacy_policy
 from Policy.return_and_refund_policy import get_return_and_refund_policy
+from firebase_data import fetch_temp
 from cart import display_cart
 # Initialize Firebase
 if not firebase_admin._apps:
@@ -112,11 +113,11 @@ if page == "Orders":
         display_Scoop_button(ref, st.session_state)
 
 
-
-
 # Horizontal sliding menu for cart
 elif page == 'Cart':
+    st.warning("This app is under testing so it may take 10-30 sec to load the cart")
     st.markdown("<h2 style='text-align: center; '>Your Cart</h2>", unsafe_allow_html=True)
+    #st.warning("This app is under testing so it may take 10-30 sec to load the cart")
     total = 0
     order_items = []
 

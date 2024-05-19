@@ -18,13 +18,20 @@ def display_rice_button(ref, session_state):
                     with col2:
                         quantity = session_state['cart'].get(item_id, 0)
                         if quantity == 0:
-                            if st.button(f"Add to Cart", key=f"add_rice_{item_id}"):
+                            if st.button(f"Add to Cart", key=f"add_grilled_chicken_{item_id}"):
                                 quantity += 1
                                 session_state['cart'][item_id] = quantity
-                                st.experimental_rerun()
+                                #order_data = {'name': item_data['item_name'], 'price': item_data['price'], 'quantity': quantity}
+                                #dref.child('tables').child(str(table_number)).push(order_data)
+                                #update_cart_in_database(table_number, item_id, order_data)
+                                st.rerun()
                         else:
-                            remove_button_key = f"remove_{item_id}"
-                            if st.button("Remove from Cart", key=remove_button_key):
+                            remove_button_key = f"remove_grilled_chicken_{item_id}"
+                            if st.button(f"Remove from Cart", key=remove_button_key):
                                 quantity -= 1
                                 session_state['cart'][item_id] = quantity if quantity > 0 else 0
+                                
+                                #order_data = {'name': item_data['item_name'], 'price': item_data['price'], 'quantity': quantity}
+                                #dref.child('tables').child(str(table_number)).child(item_id).delete()
+                                #update_cart_in_database(table_number, item_id, order_data)
                                 st.rerun()

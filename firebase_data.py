@@ -66,3 +66,7 @@ def fetch_indian_gravy_items(ref):
 def fetch_rice_noodles_items(ref):
     rice_noodles_items= ref.child('rice_noodles').get()
     return rice_noodles_items
+
+def fetch_temp(ref, table_number):
+    temp = ref.child('tables').child(table_number).get()
+    return temp
