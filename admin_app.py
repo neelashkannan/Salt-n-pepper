@@ -70,7 +70,7 @@ page = st.sidebar.selectbox(
                       "Dosa",
                       "Indian Gravy",
                       "Indian Breads",
-                      "Fish & Sea Food","Fresh juice",
+                      "Fish & Sea Food",
                       "Scoop",
                       "Milk Shake",
                       "Soft Drinks",
