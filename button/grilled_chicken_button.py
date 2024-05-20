@@ -5,7 +5,7 @@ def display_grilled_chicken_items_button(ref, session_state):
     grilled_chicken_items = fetch_grilled_chicken_items(ref)
 
     if grilled_chicken_items:
-        if st.button("Grilled Chicken", key="grilled_chicken_btn", use_container_width=200):
+        if st.button("Grilled Chicken :poultry_leg:", key="grilled_chicken_btn", use_container_width=200):
             session_state['button_state_grilled_chicken'] = not session_state.get('button_state_grilled_chicken', False)
 
     if session_state.get('button_state_grilled_chicken', False):

@@ -5,7 +5,7 @@ def display_Milk_Shake_button(ref, session_state):
     egg_items = fetch_Milk_Shake_items(ref)
 
     if egg_items:
-        if st.button("Milk Shake", use_container_width=200):
+        if st.button("Milk Shake :glass_of_milk:", use_container_width=200):
             session_state['button_state_Milk Shake'] = not session_state['button_state_Milk Shake']
 
     if session_state['button_state_Milk Shake']:

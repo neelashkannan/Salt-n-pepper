@@ -5,7 +5,7 @@ def display_Dosa_button(ref, session_state):
     egg_items = fetch_Dosa_items(ref)
 
     if egg_items:
-        if st.button("Dosa", use_container_width=200):
+        if st.button("Dosa :fish_cake:", use_container_width=200):
             session_state['button_state_dosa'] = not session_state['button_state_dosa']
 
     if session_state['button_state_dosa']:

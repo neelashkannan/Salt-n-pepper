@@ -5,7 +5,7 @@ def display_Fresh_Juice_button(ref, session_state):
     juice_items = fetch_Fresh_Juice_items(ref)
 
     if juice_items:
-        if st.button("Fresh Juice", use_container_width=200):
+        if st.button("Fresh Juice :tropical_drink:", use_container_width=200):
             session_state['button_state_Fresh_Juice'] = not session_state['button_state_Fresh_Juice']
 
     if session_state['button_state_Fresh_Juice']:

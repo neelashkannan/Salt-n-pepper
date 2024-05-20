@@ -5,7 +5,7 @@ def display_Scoop_button(ref, session_state):
     egg_items = fetch_Scoop_items(ref)
 
     if egg_items:
-        if st.button("Scoop", use_container_width=200):
+        if st.button("Scoop :ice_cream:", use_container_width=200):
             session_state['button_state_Scoop'] = not session_state['button_state_Scoop']
 
     if session_state['button_state_Scoop']:

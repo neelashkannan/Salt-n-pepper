@@ -5,7 +5,7 @@ def display_Indian_Breads_button(ref, session_state):
     egg_items = fetch_Indian_Breads_items(ref)
 
     if egg_items:
-        if st.button("Indian Breads", use_container_width=200):
+        if st.button("Indian Breads :bread:", use_container_width=200):
             session_state['button_state_Indian_Breads'] = not session_state['button_state_Indian_Breads']
 
     if session_state['button_state_Indian_Breads']:

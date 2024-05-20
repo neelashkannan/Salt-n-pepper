@@ -5,7 +5,7 @@ def display_Fish_Sea_Food_button(ref, session_state):
     egg_items = fetch_Fish_Sea_Food_items(ref)
 
     if egg_items:
-        if st.button("Fish & Sea Food", use_container_width=200):
+        if st.button("Fish & Sea Food :fish:", use_container_width=200):
             session_state['button_state_Fish & Sea Food'] = not session_state['button_state_Fish & Sea Food']
 
     if session_state['button_state_Fish & Sea Food']:
