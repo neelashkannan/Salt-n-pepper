@@ -18,11 +18,13 @@ from button.indian_gravy_button import display_indian_gravy_button
 from button.Milk_Shake_button import display_Milk_Shake_button
 from button.rice_noodles_button import display_rice_noodles_button
 from button.Scoop_button import display_Scoop_button
+from button.South_Indian_Parota_button import display_South_Indian_Parota_button
 from Policy.terms_and_conditions import get_terms_and_conditions
 from Policy.privacy_policy import get_privacy_policy
 from Policy.return_and_refund_policy import get_return_and_refund_policy
 from firebase_data import fetch_temp
 from cart import display_cart
+import threading
 # Initialize Firebase
 if not firebase_admin._apps:
     cred = credentials.Certificate("testing.json")
@@ -96,11 +98,13 @@ page = option_menu(
 # Horizontal sliding menu for ordering
 if page == "Orders":
     with st.expander("Order Menu", expanded=True):
+    
         display_starter_items_button(ref, st.session_state)
         display_soup_items_button(ref, st.session_state)
         display_grilled_chicken_items_button(ref, st.session_state)
         display_Biryani_items_button(ref, st.session_state)
         display_rice_button(ref, st.session_state)
+        display_South_Indian_Parota_button(ref, st.session_state)
         display_egg_button(ref, st.session_state)
         display_Dosa_button(ref, st.session_state)
         display_Fresh_Juice_button(ref, st.session_state) 
@@ -197,13 +201,13 @@ elif page == 'Cart':
 
 st.markdown("---")  
 
-if st.button("Terms and Conditions"):
+if st.button("Terms and Conditions",use_container_width=200):
     st.session_state["selected_section"] = "Terms and Conditions"
 
-if st.button("Privacy Policy"):
+if st.button("Privacy Policy",use_container_width=200):
     st.session_state["selected_section"] = "Privacy Policy"
 
-if st.button("Return and Refund Policy"):
+if st.button("Return and Refund Policy",use_container_width=200):
     st.session_state["selected_section"] = "Return and Refund Policy"
 
 if st.session_state["selected_section"] == "Terms and Conditions":
