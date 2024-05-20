@@ -105,7 +105,7 @@ if page == "Orders":
         display_Dosa_button(ref, st.session_state)
         display_Fresh_Juice_button(ref, st.session_state) 
         display_Fish_Sea_Food_button(ref, st.session_state)
-        display_Fresh_Juice_button(ref, st.session_state)
+        #display_Fresh_Juice_button(ref, st.session_state)
         display_Indian_Breads_button(ref, st.session_state)
         display_indian_gravy_button(ref, st.session_state)
         display_Milk_Shake_button(ref, st.session_state)

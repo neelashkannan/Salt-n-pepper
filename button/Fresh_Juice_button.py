@@ -2,15 +2,15 @@ import streamlit as st
 from firebase_data import fetch_Fresh_Juice_items
 
 def display_Fresh_Juice_button(ref, session_state):
-    egg_items = fetch_Fresh_Juice_items(ref)
+    juice_items = fetch_Fresh_Juice_items(ref)
 
-    if egg_items:
-        if st.button("Fresh_Juice", use_container_width=200):
+    if juice_items:
+        if st.button("Fresh Juice", use_container_width=200):
             session_state['button_state_Fresh_Juice'] = not session_state['button_state_Fresh_Juice']
 
     if session_state['button_state_Fresh_Juice']:
         with st.container():
-            for item_id, item_data in egg_items.items():
+            for item_id, item_data in juice_items.items():
                 if item_data.get('available', False):  # Check if the item is available
                     col1, col2 = st.columns([1, 2])
                     with col1:
