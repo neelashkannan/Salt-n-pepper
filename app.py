@@ -66,6 +66,7 @@ default_keys = {
     'button_state_Biryani': False,
     'button_state_soup': False,
     'button_state_grilled_chicken': False,
+     'button_state_South Indian Parota': False,
     'button_state_dosa': False,
     'button_state_Fish & Sea Food': False,
     'button_state_Fresh_Juice': False,
